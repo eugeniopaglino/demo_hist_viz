@@ -1,0 +1,993 @@
+<!DOCTYPE html>
+<head>
+<title>Time Use Simulation</title>
+<link rel="stylesheet" href="style/style.css" type="text/css" media="screen" />
+<link rel="stylesheet" type="text/css" href="//cloud.typography.com/7626174/696048/css/fonts.css" />
+<link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+<meta charset="utf-8">
+<style>
+
+.node {
+  stroke-width: 1.5px;
+}
+
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
+pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd,
+q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt,
+dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot,
+thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption,
+footer, header, hgroup, menu, nav, output, ruby, section, summary, time,
+mark, audio, video {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup,
+menu, nav, section {
+    display: block
+}
+
+body {
+    line-height: 1
+}
+
+.wrapper {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.col {
+  flex: 50%;
+  max-width: 50%;
+  align-content: flex-start;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+.multi-checkbox-select .widget-checkbox {
+  display: inline-block;
+  width: 20%;
+  box-sizing: border-box;
+}
+.multi-checkbox-select legend {
+  position: relative;
+  height: 1.7rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;
+  width: 170px;
+  border: 1px solid #CCC;
+  border-top:0;
+  background: #FFF;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+#sel_2.multi-checkbox-select legend {
+  position: relative;
+  height: 1.7rem;
+  padding: 0.5rem 0 0.5rem 0.5rem;
+  width: 166px;
+  border: 1px solid #CCC;
+  border-top:0;
+  border-left:0;
+  background: #FFF;
+  box-sizing: border-box;
+  z-index: 2;
+}
+
+.multi-checkbox-select fieldset {
+  padding: 0;
+  margin: 0;
+  border: none;
+  position: relative;
+}
+.multi-checkbox-select fieldset:after {
+  position: absolute;
+  content: "";
+  display: block;
+  width: 0;
+  height: 0;
+  border-top: 6px solid #000;
+  border-right: 5px solid transparent;
+  border-bottom: 6px solid transparent;
+  border-left: 5px solid transparent;
+  right: 1rem;
+  top: 10px;
+  z-index: 2;
+}
+
+.multi-checkbox-select fieldset legend, .multi-checkbox-select fieldset input, .multi-checkbox-select fieldset label {
+  cursor: pointer;
+}
+.multi-checkbox-select fieldset .options {
+  position: relative;
+  top: -4px;
+  height: 0;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid #CCC;
+  transition: min-height 300ms ease;
+  z-index: 1;
+}
+.multi-checkbox-select fieldset:hover .options {
+  min-height: 100px;
+  overflow-y: scroll;
+  border: 1px solid #CCC;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+}
+.multi-checkbox-select fieldset span {
+  display: block;
+  margin: 0.5rem 0 0 0.5rem;
+}
+
+@font-face {
+    font-family: "GGPFont";
+    src:url("Fonts/PFDinTextPro-Light.ttf");
+}
+
+ol, ul {
+    list-style: none
+}
+
+blockquote, q {
+    quotes: none
+}
+
+blockquote:before, blockquote:after, q:before, q:after {
+    content: '';
+    content: none
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0
+}
+
+#main-wrapper {
+    font-family: "GGPFont", Gill Sans, sans-serif;
+    font-size: 14px;
+    width: 1090px;
+    height: 1000px;
+    margin: 0 auto 0 auto;
+}
+
+h1 {
+    font-family: "GGPFont", Gill Sans, sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    text-align: center
+}
+
+h3 {
+    text-transform: uppercase;
+    font-size: 1em;
+    padding: 3px 0;
+    margin: -5px 0 3px
+}
+
+img {
+    display: block;
+    margin-left: 20px;
+    margin-top: 10px;
+    width: 10%;
+    float: left;
+}
+
+.centered {
+    text-align: center
+}
+
+#sidebar {
+    width: 259px;
+    float: left;
+    margin-right: 30px;
+    padding-right: 20px;
+    border-right: 1px solid #ccc;
+    height: 730px
+}
+
+#current_age {
+    font-family: "GGPFont", Gill Sans, sans-serif;
+    font-size: 60px;
+    color: #666;
+    text-align: center;
+    margin: 10px auto 0 auto;
+    width: 250px;
+}
+
+#chart {
+    float: left
+}
+
+#speed {
+    font-family: "GGPFont", Gill Sans, sans-serif;
+    font-size: 16px;
+    width: 340px;
+    margin: 5px auto 10px auto;
+}
+
+#speed .togglebutton {
+    padding: 3px;
+    text-align: center;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    float: left;
+    width: 60px
+}
+
+#speed .togglebutton.slow {
+    border-right: 0;
+    border-left: 0;
+}
+
+#speed .togglebutton.fast {
+    border-left: 0;
+    
+}
+
+#speed .togglebutton.current {
+    color: #fff;
+    background: #000;
+}
+
+#note {
+    position: relative;
+    top: 0;
+    color: #fff;
+    font-family: "GGPFont", Gill Sans, sans-serif;
+    font-weight: 400;
+    font-size: 1.15em;
+    line-height: 1.3em;
+    text-align: justify;
+    height: 60px;
+    width: 800px;
+    margin: 0 auto 0 auto;
+}
+
+.x.axis text {
+    font-size: 1.3em;
+}
+
+.x.grid line {
+    stroke: #000;
+    opacity: .2
+}
+
+.y.axis text {
+    font-size: 1.3em;
+    alignment-baseline: middle
+}
+
+#cite {
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+    top: 640px;
+    font-size: 12px;
+    line-height: 1.4em;
+    width: 259px
+}
+
+circle {}
+
+.line {
+    stroke-width: .1px
+}
+
+a {
+    color: #821122;
+    text-decoration: none;
+    border-bottom: 1px solid #ccc
+}
+
+a:hover {
+    border-bottom: 1px solid #821122
+}
+
+.clr {
+    clear: both
+}
+
+path.domain {
+    display: none
+}
+
+#speed .update_button {
+    background: #ececec;
+    padding: 3px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-left: 0;
+    cursor: pointer;
+    float: left;
+    width: 60px;
+}
+
+#speed .start_button {
+    background: #ececec;
+    padding: 3px;
+    text-align: center;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    float: left;
+    width: 60px;
+}
+
+</style>
+</head>
+<body>
+<div id="main-wrapper">
+
+<img  src="ggp_logo_hq.png" >
+
+<div id="current_age">Age: 15.0</div>
+<div id="speed">
+<div class="start_button" onclick="startAnimation()">Start</div>
+<div class="update_button" onclick="history.go(0)">Update</div>
+<div class="togglebutton slow" data-val="slow">Slow</div>
+<div class="togglebutton medium current" data-val="medium">Medium</div>
+<div class="togglebutton fast" data-val="fast">Fast</div>
+
+<div class='wrapper'>
+
+<div class="col">
+  <div class="widget widget-select multi-select" id='sel_1'>
+    <label for="cat_1" class="select">Countries</label>
+  	<select name="countries" id="country_sel" class="select" multiple>
+  	  <option value="Belgium">Belgium</option>
+  	  <option value="Czech Republic">Czech Republic</option>
+  		<option value="France">France</option>
+  		<option value="Georgia">Georgia</option>
+  		<option value="Germany">Germany</option>
+  		<option value="Lithuania">Lithuania</option>
+  		<option value="Norway">Norway</option>
+  		<option value="Poland">Poland</option>
+  		<option value="United Kingdom">United Kingdom</option>
+  	</select>
+  </div>
+</div>
+
+<div class="col">
+  <div class="widget widget-select multi-select" id='sel_2'>
+    <label for="cat_2" class="select">Cohorts</label>
+  	<select name="cohorts" id="cohort_sel" class="select" multiple>
+  	  <option value="1940-1945">1940-1945</option>
+  	  <option value="1945-1950">1945-1950</option>
+  		<option value="1950-1955">1950-1955</option>
+  		<option value="1955-1960">1955-1960</option>
+  		<option value="1960-1965">1960-1965</option>
+  		<option value="1965-1970">1965-1970</option>
+  	</select>
+  </div>
+</div>
+</div>
+
+<!-- partial -->
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+<script  src="./select_1.js"></script>
+<script  src="./select_2.js"></script>
+
+<!--
+<select id="search_cohort" multiple="multiple" class="select_all">
+<option value="0">1949-1950</option>
+<option value="1">1969-1970</option>
+</select>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js'></script>
+<script  src="./script.js"></script>
+
+-->
+
+<div class="clr"></div>
+</div>
+<div id="note"> &nbsp;</div>
+<div id="chart"></div>
+<div class="clr"></div>
+</div>
+<script src="d3-3-5-5.min.js"></script>
+<!-- Load d3.js & color palette -->
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+<script>
+
+// The following code uses d3.js, or Data-Driven Documents, created by Mike Bostock. 
+// The animation is inspired by the following post of Nathan Yau: 
+// http://flowingdata.com/2017/05/17/american-workday/
+
+var first_time = true;
+
+var USER_SPEED = "medium";
+
+var margin = {top: 105, right: 50, bottom: 50, left: 160 },
+    width = 1090 - margin.left - margin.right,
+	  height = 600 - margin.top - margin.bottom,
+    padding = 3, // separation between nodes
+    radius = 3.5,
+    damper = 0.35;
+	
+var sched_objs = [],
+	curr_month = 0;
+var last_month = 240;
+
+// Codes for marital statuses.
+var mstat_codes = {
+	"m": {"short": "Married", "desc": "Married"},
+	"c": {"short": "Cohabiting", "desc": "Cohabiting"},
+	"s": {"short": "Single", "desc": "Single"},
+};
+
+// Codes for group names. In this animation groups are different
+// cohorts. We have only two of them, but the code is written in
+// such a way that more can be easily accomodated.
+
+var colors = ['#E17C05','#0F8554','#38A6A5','#1D6996','#94346E','#CC503E',
+              '#5F4690','#73AF48','#EDAD08','#6F4070','#994E95','#666666',
+              '#007d81','#f58220']
+
+var group_colors = {
+  0:	{ "name": "Group0", color: colors[0], count: 0 },
+  1:	{ "name": "Group1", color: colors[1], count: 0 },
+  2:	{ "name": "Group2", color: colors[2], count: 0 },
+  3:	{ "name": "Group3", color: colors[3], count: 0 },
+	4:	{ "name": "Group4", color: colors[4], count: 0 },
+	5:	{ "name": "Group5", color: colors[5], count: 0 },
+	6:	{ "name": "Group6", color: colors[6], count: 0 },
+	7:	{ "name": "Group7", color: colors[7], count: 0 },
+	8:	{ "name": "Group8", color: colors[8], count: 0 },
+	9:	{ "name": "Group9", color: colors[9], count: 0 },
+	10:	{ "name": "Group10", color: colors[10], count: 0 },
+	11:	{ "name": "Group11", color: colors[11], count: 0 },
+	12:	{ "name": "Group12", color: colors[12], count: 0 },
+	13:	{ "name": "Group13", color: colors[13], count: 0 },
+}
+
+// The first cohort is assigned the GGP green color, the second one the GGP
+// orange color and the last one the GGP blue color. For the blue, here is
+// the codes for a brigther version: #1e3a95
+
+// Codes for parity statuses names. Colors are there because they might
+// be used if one chooses another type of visualisation with, say, more
+// emphasis on the number of children.
+var pstat_names = {
+	"0":	{ "name": "No Child", color: "#6b8ef7", count: 0 },
+	"1":	{ "name": "1 Child", color: "#05b1b5", count: 0 },
+	"2":	{ "name": "2 Children", color: "#38c40a", count: 0 },
+	"3":	{ "name": "3 Children", color: "#dd5a62", count: 0 },
+	"4":	{ "name": "4+ Children", color: "#eca0a5", count: 0 }, /*
+	"5":	{ "name": "Five Children", color: "#fedc5b", count: 0 },
+	"6":	{ "name": "Six Children", color: "#cf6001", count: 0 }, */
+}
+
+
+// This variable associates a speed to each speed button. The speed is
+// expressed in milliseconds after which the animation is refreshed.
+var speeds = { "slow": 1000, "medium": 250, "fast": 100 };
+
+
+// Here are notes that describe the most relevant demographic facts that are illustrated
+// in the animation. The start and stop months determine when the note will appear
+// and when it will disappear. The notes, like the rest of the animation, start over
+// once the time counter has reached 35 years.
+var time_notes = [
+	{ "start_month": 10, "stop_month": 130, "note": "In this GGS data visualisation you see the partnership and fertility histories of a random sample of 500 individuals equally divided between the country-cohort combinations you selected (Source: GGS). For more info visit: www.ggp-i.org" },
+	{ "start_month": 140, "stop_month": 230, "note": "Use the speed buttons to make the animation go slower or faster. To change your selection, press the Update button, select the countries and cohortsyou are interested in, then start the animation by pressing the Start button." },
+];
+var notes_index = 0;
+
+// Here we initialize the x axis
+var x = d3.scale.ordinal()
+    .rangePoints([50, width]);
+var xAxis = d3.svg.axis()
+    .scale(x)
+    .tickFormat(function(d) {
+        return pstat_names[d]['name'];
+    })
+    .orient("top");
+// var xGrid = d3.svg.axis()
+// 	.scale(x)
+//     .orient("bottom")
+//     .innerTickSize(-(height+margin.top));
+    // .tickPadding(10);
+
+// Here we initialize the y axis	
+var y = d3.scale.ordinal()
+	.domain(Object.keys(mstat_codes))
+    .rangePoints([0, height-150]);
+var yAxis = d3.svg.axis()
+	.scale(y)
+	.tickSize(40)
+	.tickFormat(function(d) {
+		console.log(Object.keys(mstat_codes));
+		return mstat_codes[d]['desc'];
+	})
+	.orient("left");
+
+
+// Here we start the SVG, which is the graphical engine behind the animation
+var svg = d3.select("#chart").append("svg")
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// We set the initial country to Sweden. Users can change it afterwards.
+
+var dataset = "hist_data.csv"
+    
+// This is the function that updates the country by checking which one has
+// been selected.
+
+// if (sessionStorage.getItem('selected')){
+//    document.getElementById("search_country").value = sessionStorage.getItem('selected');
+//    dataset = document.getElementById("search_country").value
+//  }
+//else {
+//    document.getElementById("search_country").value = 'sweden_data.csv'
+//  }
+//
+//function select_country() {
+ //   sessionStorage.setItem('selected', document.getElementById('search_country').value);
+ //   document.getElementById("search_country").value = sessionStorage.getItem('selected');
+ //   dataset = document.getElementById('search_country').value;
+ // }
+  
+function startAnimation() {
+  
+// This if statement prevents users from creating problems by pressing the
+// start button multiple times.
+
+  if (first_time==true) {
+
+// Here we load the data that we have prepared. The structure of the data is the
+// following one:
+
+//    - the first column contains the group code for each observation.
+//    - a tab character separates the first column from the subsequent ones.
+//    - the remaining columns are to be read in pairs where the first one 
+//      contains the status code and the second one contains the 
+//      duration of that status in months.
+//    - the status code contains a letter, which corresponds to the marital
+//      status, and a number, which corresponds to the number of children.
+
+    // Load data and let's do it.
+    
+    d3.csv(dataset, function(error, data) {
+      
+      // We check which countries and cohorts are selected in the drop-down menus
+      
+      var countries = $('#country_sel').val();
+      var cohorts = $('#cohort_sel').val();
+      
+      var num_of_groups = cohorts.length*countries.length
+  
+      // We then filter our data so that it contains only the countries and
+      // cohorts the user selected
+      
+      var data = data.filter(function(d){
+          return (cohorts.includes(d.cohort))
+      })  
+      
+      var data = data.filter(function(d){
+          return (countries.includes(d.acountry))
+      })
+      
+      var groupids = [data[0]['group']]
+      var group_names = [data[0]['acountry'].concat(' ',data[0]['cohort'])]
+      group_num = 0
+      
+      for (var i = 0; i < data.length; i++) {
+        data[i]['group_num'] = group_num
+        if (!(groupids.includes(data[i]['group']))) {
+          groupids.push(data[i]['group'])
+          group_names.push(data[i]['acountry'].concat(' ',data[i]['cohort']))
+          group_num = ++group_num
+        }
+      }
+    	
+    	function resize_data(data,num_of_groups,max_dots) {
+    	  
+    	  var resized_data = []
+    	  var group = data[0].group_num
+    	  var size = 0
+        var group_size = (max_dots/num_of_groups).toFixed(0)
+    	  
+    	  for (var i = 0; i < data.length; i++) {
+    	    if (data[i].group_num == group) {
+    	      if (size < group_size) {
+    	        resized_data[size + group*group_size] = data[i]
+    	        size = ++size
+    	      }
+    	    } else {
+    	      size = 0
+    	      group = data[i].group_num
+    	      resized_data[size + group*group_size] = data[i]
+    	    }
+    	  }
+    	  return resized_data
+    	}
+    	
+    	// We resize the data so that each group is represented by the same 
+    	// number of bubbles and the total size is fixed to 500.
+    	
+    	data = resize_data(data,num_of_groups,500)
+    	
+    	var labels = [0, 1, 2, 3, 4];
+    	
+    	// replace labels with the following commented expression to reset to the original
+    	// code which was dynamic and changed the number of labels to set it equal to the
+    	// number of unique groups in the dataset.
+    	
+    	// d3.map(data, function(d) { return d.grp; }).keys()
+    	
+    	
+    		// Here we create "ticks" in the x and y axes, one for each group
+	      // and marital status. These will constitute a grid where clusters
+	      // of nodes will locate.
+	      
+    	x.domain(labels);
+        svg.append("g")
+            .attr("class", "y axis")
+    		.attr("transform", "translate(-70,-10)")
+    		.call(yAxis)
+     	  .selectAll(".tick text")
+        	.call(wrap, 80);
+    	svg.append("g")
+    		.attr("class", "x axis")
+    		.attr("transform", "translate(0,-100)")
+    		.call(xAxis)
+         .selectAll(".tick text")
+            .call(wrap, x.rangeBand());
+    	
+    	
+    	// 
+    	// Counters
+    	//
+    	
+    	/*
+    	
+    	var counter = svg.selectAll(".counter")
+    		.data(Object.keys(pstat_names))
+    	  .enter().append("g")
+    		.attr("class", "counter")
+    		.attr("transform", function(d) { return "translate("+x(d)+",-60)"; })
+    	  .append("text")
+    		.attr("text-anchor", "middle")
+    		.text(function(d,i) { 
+    			if (i == 0) {
+    				return "With Child " + readablePercent(pstat_names[d].count); 
+    			} else {
+    				return readablePercent(pstat_names[d].count); 
+    			}
+    		});
+    	
+    	*/
+    	
+    	// Finally we extract the data from the csv file. An object is created with four
+	    // properties: group, number of children, marital status, and duration. The group 
+	    // is static, in the sense that individuals do not change group during the animation. 
+	    // Marital status, number of children and duration are stores in three arrays which 
+	    // contain multiple entries (as many as the number of status changes).
+    	data.forEach(function(d) {
+    		var hist_array = d.sequence.split(",");
+    		var activities = [];
+    		for (var i=0; i < hist_array.length; i++) {
+    			// Duration
+    			if (i % 2 == 1) {
+    				activities.push({
+    					'grp': d.group_num, 
+    					'numchildren': hist_array[i-1].substring(1), 
+    					'mstat': hist_array[i-1].substring(0, 1), 
+    					'duration': +hist_array[i]});
+    			}
+    		}
+    		sched_objs.push(activities);
+    	});
+    	
+    	  
+    	// A node for each person's history is created. We will have 250 nodes
+	    // per cohort.
+    	var nodes = sched_objs.map(function(o,i) {
+    		var init = o[0];
+    		var init_x = x(init.numchildren) + Math.random();
+    		var init_y = y(init.mstat) + Math.random();
+    		var col = colorByGroup(init.grp)
+    		group_colors[init.grp].count += 1;
+    		return {
+    			grp: init.grp,
+    			numchildren: init.numchildren,
+    			mstat: init.mstat,
+    			radius: radius,
+    			x: init_x,
+    			y: init_y,
+    			color: col,
+    			moves: 0,
+    			next_move_time: init.duration,
+    			sched: o,
+    		}
+    	});
+    
+      // Here we initialize the engine which governs the movement of the nodes
+    	var force = d3.layout.force()
+    		.nodes(nodes)
+    		.size([width, height])
+    		.gravity(0)
+    		.charge(0)
+    		.friction(.9)
+    		.on("tick", tick)
+    		.start();
+    
+      // Here we attach a circle to each node
+    	var circle = svg.selectAll("circle")
+    		.data(nodes)
+    	  .enter().append("circle")
+    		.attr("r", function(d) { return d.radius; })
+    		.style("fill", function(d) { return d.color; });
+    
+    	// The following code updates nodes based on marital status, number of 
+    	// children, and duration.
+	    // It checks if a marital status or a parity status has ended and, 
+	    // in case, it moves the node to the next position.
+    	function timer() {
+    		d3.range(nodes.length).map(function(i) {
+    			var curr_node = nodes[i],
+    				curr_moves = curr_node.moves;
+    			var curr_grp = 0
+    
+    			// Time to go to next marital status
+    			if (curr_node.next_move_time == curr_month) {
+    				if (curr_node.moves == curr_node.sched.length-1) {
+    					curr_moves = 0;
+    				} else {
+    					curr_moves += 1;
+    				}
+    				
+    			/*	
+    				// Keep track of individuals which have no children.
+				  if (curr_node.mstat=="n" && curr_node.sched[ curr_moves ].mstat != "n") {
+					  group_colors[curr_node.group].count -= 1;
+				  }
+				  if (curr_node.mstat!="n" && curr_node.sched[ curr_moves ].mstat == "n") {
+					  group_colors[curr_node.group].count += 1;
+				  }
+				  */
+    			
+    				// Moves nodes on to next status
+    				curr_node.numchildren = curr_node.sched[ curr_moves ].numchildren;
+    				curr_node.mstat = curr_node.sched[ curr_moves ].mstat;
+    				curr_node.moves = curr_moves;
+    				curr_node.cx = x(curr_node.numchildren);
+    				curr_node.cy = y(curr_node.mstat);
+    			
+    				nodes[i].next_move_time += nodes[i].sched[ curr_node.moves ].duration;
+    			}
+    
+    		});
+    
+    		force.resume();
+    		curr_month += 1;
+    
+        /*
+    
+    		// Update percentages
+    		svg.selectAll(".counter text")
+    			.text(function(d, i) {
+    				if (i == 0) {
+    					return "With Child " + readablePercent(75 - pstat_names[d].count); 
+    				} else {
+    					return readablePercent(75 - pstat_names[d].count); 
+    				}
+    			});
+    			
+    			*/
+    
+    	
+    		// Updates age
+    		var true_month = curr_month % last_month;
+    		d3.select("#current_age").text(monthsToAge(true_month));
+    		
+    		
+    		// Update notes
+    		if (true_month == time_notes[notes_index].start_month) {
+    			d3.select("#note")
+    			  .transition()
+    				.duration(1000)
+    				.style("color", "#000000")
+    				.text(time_notes[notes_index].note);
+    		} 
+    		
+    		// Makes note disappear when they have reached their
+		    // stop month.
+    		else if (true_month == time_notes[notes_index].stop_month) {
+    			
+    			d3.select("#note").transition()
+    				.duration(1000)
+    				.style("color", "#ffffff");
+    				
+    			notes_index += 1;
+    			if (notes_index == time_notes.length) {
+    				notes_index = 0;
+    			}
+    		}
+    		
+    		setTimeout(timer, speeds[USER_SPEED]);
+    		  
+    	} // Here ends the timer function
+    		
+    	function tick(e) {
+    	  var k = 0.1 * e.alpha;
+      
+    	  // Push nodes toward their designated focus.
+    	  nodes.forEach(function(o, i) {
+    		var curr_numchildren = o.numchildren;
+    		o.color = colorByGroup(o.grp);
+    		
+    		o.x += (x(o.numchildren) - o.x) * k * damper;
+    	    o.y += (y(o.mstat) - o.y) * k * damper;
+    	    
+    	  });
+    
+    	  circle
+    	  	  .each(collide(.5))
+    	  	  .style("fill", function(d) { return d.color; })
+    	      .attr("cx", function(d) { return d.x; })
+    	      .attr("cy", function(d) { return d.y; });
+    	}
+    
+    
+    	// Resolve collisions between nodes.
+    	function collide(alpha) {
+    	  var quadtree = d3.geom.quadtree(nodes);
+    	  return function(d) {
+    	    var r = d.radius + radius + padding,
+    	        nx1 = d.x - r,
+    	        nx2 = d.x + r,
+    	        ny1 = d.y - r,
+    	        ny2 = d.y + r;
+    	    quadtree.visit(function(quad, x1, y1, x2, y2) {
+    	      if (quad.point && (quad.point !== d)) {
+    	        var x = d.x - quad.point.x,
+    	            y = d.y - quad.point.y,
+    	            l = Math.sqrt(x * x + y * y),
+    	            r = d.radius + quad.point.radius + (d.mstat !== quad.point.mstat) * padding;
+    	        if (l < r) {
+    	          l = (l - r) / l * alpha;
+    	          d.x -= x *= l;
+    	          d.y -= y *= l;
+    	          quad.point.x += x;
+    	          quad.point.y += y;
+    	        }
+    	      }
+    	      return x1 > nx2 || x2 < nx1 || y1 > ny2 || y2 < ny1;
+    	    });
+    	  };
+    	}
+    	
+    	// This code makes the speed button work
+    	d3.selectAll(".togglebutton")
+          .on("click", function() {
+            if (d3.select(this).attr("data-val") == "slow") {
+                d3.select(".slow").classed("current", true);
+    			d3.select(".medium").classed("current", false);
+                d3.select(".fast").classed("current", false);
+            } else if (d3.select(this).attr("data-val") == "medium") {
+                d3.select(".slow").classed("current", false);
+    			d3.select(".medium").classed("current", true);
+                d3.select(".fast").classed("current", false);
+            } 
+    		else {
+                d3.select(".slow").classed("current", false);
+    			d3.select(".medium").classed("current", false);
+    			d3.select(".fast").classed("current", true);
+            }
+    		
+    		USER_SPEED = d3.select(this).attr("data-val");
+        });
+        
+        timer(); // Here we call the timer function which then keeps calling
+      	         // itself thanks to the setTimeout function inside it.
+      	         
+      // Finally we create the legend
+
+      // Add one dot in the legend for each name.
+      svg.selectAll("mydots")
+        .data(group_names)
+        .enter()
+        .append("circle")
+          .attr("cx", function(d,i){ return 50 + i%4*200})
+          .attr("cy", function(d,i){ return 410 + Math.floor(i/4)*20}) // 100 is where the first dot appears. 25 is the distance between dots
+          .attr("r", 7)
+          .style("fill", function(d,i){ return colors[i]})
+      
+      // Add one dot in the legend for each name.
+      svg.selectAll("mylabels")
+        .data(group_names)
+        .enter()
+        .append("text")
+          .attr("x", function(d,i){ return 70 + i%4*200})
+          .attr("y", function(d,i){ return 410 + Math.floor(i/4)*20}) // 100 is where the first dot appears. 25 is the distance between dots
+          .style("fill", function(d, i){ return colors[i]})
+          .text(function(d){ return d})
+          .attr("text-anchor", "left")
+          .style("alignment-baseline", "middle")
+            	   
+          });
+    
+    first_time = false;
+    
+  }// Here ends the if in the start animation function
+  
+} // Here ends the function that starts the animation, reads and manipulate the data
+
+// This is the function that assigns the color to each group
+
+function colorByGroup(occ) {
+	return group_colors[occ].color;
+}
+
+function wrap(text, width) {
+  text.each(function() {
+    var text = d3.select(this),
+        words = text.text().split(/\s+/).reverse(),
+        word,
+        line = [],
+        lineNumber = 0,
+        lineHeight = 1, // ems
+        y = text.attr("y"),
+        dy = parseFloat(text.attr("dy")),
+        tspan = text.text(null).append("tspan").attr("x", 0).attr("y", y).attr("dy", dy + "em");
+    while (word = words.pop()) {
+      line.push(word);
+      tspan.text(line.join(" "));
+      if (tspan.node().getComputedTextLength() > width) {
+        line.pop();
+        tspan.text(line.join(" "));
+        line = [word];
+        tspan = text.append("tspan").attr("x", 0).attr("y", y).attr("dy", ++lineNumber * lineHeight + dy + "em").text(word);
+      }
+    }
+  });
+}
+
+
+
+// Output readable percent based on count.
+function readablePercent(n) {
+	
+	var pct = 100 * n / 75;
+	if (pct < 1 && pct > 0) {
+		pct = "<1%";
+	} else {
+		pct = Math.round(pct) + "%";
+	}
+	
+	return pct;
+}
+
+
+// Months to age in years and fractions of year. Data is months from date of birth.
+function monthsToAge(m) {
+  var months = m + 180;
+  var precise_age = months / 12
+  var age = precise_age.toFixed(1);
+	return "Age: " + age;
+}
+
+// Here we build the legend
+
+console.log(group_names)
+
+
+  
+
+</script>
+
+
+
