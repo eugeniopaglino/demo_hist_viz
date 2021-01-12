@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <head>
 <title>Time Use Simulation</title>
-<link rel="stylesheet" href="style/style.css" type="text/css" media="screen" />
-<link rel="stylesheet" type="text/css" href="//cloud.typography.com/7626174/696048/css/fonts.css" />
-<link href='https://fonts.googleapis.com/css?family=Inconsolata' rel='stylesheet' type='text/css'>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
 <meta charset="utf-8">
 <style>
 
@@ -45,9 +41,21 @@ body {
 .col {
   flex: 50%;
   max-width: 50%;
+  height: 30px;
   align-content: flex-start;
   align-items: flex-start;
   box-sizing: border-box;
+  z-index:10;
+}
+
+.col_2 {
+  flex: 100%;
+  max-width: 33%;
+  height: 30px;
+  align-content: flex-start;
+  align-items: flex-start;
+  box-sizing: border-box;
+  z-index:9;
 }
 
 .multi-checkbox-select .widget-checkbox {
@@ -55,29 +63,42 @@ body {
   width: 20%;
   box-sizing: border-box;
 }
+
 .multi-checkbox-select legend {
   position: relative;
-  height: 1.7rem;
-  padding: 0.5rem 0 0.5rem 0.5rem;
+  height: 30px;
+  padding: 0.5rem 0 0 0.5rem;
   width: 170px;
   border: 1px solid #CCC;
   border-top:0;
   background: #FFF;
   box-sizing: border-box;
-  z-index: 2;
+  z-index: 100;
+}
+
+select {
+  width:100px;
+	float:left;
+	appearance:none;
+	-webkit-appearance:none;
+	-moz-appearance:none;
+	-ms-appearance:none;
 }
 
 #sel_2.multi-checkbox-select legend {
-  position: relative;
-  height: 1.7rem;
-  padding: 0.5rem 0 0.5rem 0.5rem;
-  width: 166px;
-  border: 1px solid #CCC;
-  border-top:0;
   border-left:0;
-  background: #FFF;
-  box-sizing: border-box;
-  z-index: 2;
+  width: 166px;
+}
+
+#sel_3.multi-checkbox-select legend {
+  width: 112px;
+  z-index: 10;
+}
+
+#sel_4.multi-checkbox-select legend, #sel_5.multi-checkbox-select legend  {
+  width: 112px;
+  border-left:0;
+  z-index: 10;
 }
 
 .multi-checkbox-select fieldset {
@@ -98,7 +119,7 @@ body {
   border-left: 5px solid transparent;
   right: 1rem;
   top: 10px;
-  z-index: 2;
+  z-index: 1;
 }
 
 .multi-checkbox-select fieldset legend, .multi-checkbox-select fieldset input, .multi-checkbox-select fieldset label {
@@ -106,6 +127,7 @@ body {
 }
 .multi-checkbox-select fieldset .options {
   position: relative;
+  background: #FFF;
   top: -4px;
   height: 0;
   min-height: 0;
@@ -115,12 +137,18 @@ body {
   z-index: 1;
 }
 .multi-checkbox-select fieldset:hover .options {
+  background: #FFF;
   min-height: 100px;
   overflow-y: scroll;
   border: 1px solid #CCC;
   border-top: none;
   border-radius: 0 0 4px 4px;
 }
+
+#sel_3.multi-checkbox-select fieldset:hover {
+  min-height: 10px;
+}
+
 .multi-checkbox-select fieldset span {
   display: block;
   margin: 0.5rem 0 0 0.5rem;
@@ -204,6 +232,7 @@ img {
 }
 
 #chart {
+    position:relative;
     float: left
 }
 
@@ -220,7 +249,7 @@ img {
     border: 1px solid #ccc;
     cursor: pointer;
     float: left;
-    width: 60px
+    width: 60px;
 }
 
 #speed .togglebutton.slow {
@@ -299,7 +328,7 @@ path.domain {
     display: none
 }
 
-#speed .update_button {
+#speed .restart_button {
     background: #ececec;
     padding: 3px;
     text-align: center;
@@ -330,7 +359,7 @@ path.domain {
 <div id="current_age">Age: 15.0</div>
 <div id="speed">
 <div class="start_button" onclick="startAnimation()">Start</div>
-<div class="update_button" onclick="history.go(0)">Update</div>
+<div class="restart_button" onclick="history.go(0)">Restart</div>
 <div class="togglebutton slow" data-val="slow">Slow</div>
 <div class="togglebutton medium current" data-val="medium">Medium</div>
 <div class="togglebutton fast" data-val="fast">Fast</div>
@@ -367,6 +396,45 @@ path.domain {
   	</select>
   </div>
 </div>
+
+</div>
+
+
+<div class='wrapper'>
+
+<div class="col_2">
+  <div class="widget widget-select multi-select" id='sel_3'>
+    <label for="cat_3" class="select">Sex</label>
+  	<select name="sexes" id="sex_sel" class="select" multiple>
+  	  <option value="Females">Females</option>
+  	  <option value="Males">Males</option>
+  	  <option value="Any Sex">Both</option>
+  	</select>
+  </div>
+</div>
+
+<div class="col_2">
+  <div class="widget widget-select multi-select" id='sel_4'>
+    <label for="cat_4" class="select">Residence</label>
+  	<select name="resedences" id="residence_sel" class="select" multiple>
+  	  <option value="Rural">Rural</option>
+  	  <option value="Urban">Urban</option>
+  	  <option value="Any Residence">Both</option>
+  	</select>
+  </div>
+</div>
+
+<div class="col_2">
+  <div class="widget widget-select multi-select" id='sel_5'>
+    <label for="cat_5" class="select">Education</label>
+  	<select name="educations" id="education_sel" class="select" multiple>
+  	  <option value="Degree">Degree</option>
+  	  <option value="No Degree">No Degree</option>
+  	  <option value="Any Education">Both</option>
+  	</select>
+  </div>
+</div>
+
 </div>
 
 <!-- partial -->
@@ -393,8 +461,6 @@ path.domain {
 <div class="clr"></div>
 </div>
 <script src="d3-3-5-5.min.js"></script>
-<!-- Load d3.js & color palette -->
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
 
 <script>
 
@@ -478,7 +544,7 @@ var speeds = { "slow": 1000, "medium": 250, "fast": 100 };
 // once the time counter has reached 35 years.
 var time_notes = [
 	{ "start_month": 10, "stop_month": 130, "note": "In this GGS data visualisation you see the partnership and fertility histories of a random sample of 500 individuals equally divided between the country-cohort combinations you selected (Source: GGS). For more info visit: www.ggp-i.org" },
-	{ "start_month": 140, "stop_month": 230, "note": "Use the speed buttons to make the animation go slower or faster. To change your selection, press the Update button, select the countries and cohortsyou are interested in, then start the animation by pressing the Start button." },
+	{ "start_month": 140, "stop_month": 230, "note": "Use the speed buttons to make the animation go slower or faster. To change your selection, press the Restart button, select the countries and cohorts, then start the animation by pressing the Start button." },
 ];
 var notes_index = 0;
 
@@ -521,23 +587,102 @@ var svg = d3.select("#chart").append("svg")
 // We set the initial country to Sweden. Users can change it afterwards.
 
 var dataset = "hist_data.csv"
-    
-// This is the function that updates the country by checking which one has
-// been selected.
 
-// if (sessionStorage.getItem('selected')){
-//    document.getElementById("search_country").value = sessionStorage.getItem('selected');
-//    dataset = document.getElementById("search_country").value
-//  }
-//else {
-//    document.getElementById("search_country").value = 'sweden_data.csv'
-//  }
-//
-//function select_country() {
- //   sessionStorage.setItem('selected', document.getElementById('search_country').value);
- //   document.getElementById("search_country").value = sessionStorage.getItem('selected');
- //   dataset = document.getElementById('search_country').value;
- // }
+// This function reads the user's selections and filters the data accordingly
+
+function filterData(data) {
+  
+  // We check which countries and cohorts are selected in the drop-down menus
+  
+  var countries = $('#country_sel').val();
+  var cohorts = $('#cohort_sel').val();
+  var sexes = $('#sex_sel').val();
+  var residences = $('#residence_sel').val();
+  var educations = $('#education_sel').val();
+  
+  var num_of_groups = cohorts.length*countries.length
+
+  // We then filter our data so that it contains only the groups selected
+  // by the user
+  
+  var data = data.filter(function(d){
+      return (cohorts.includes(d.cohort))
+  })  
+  
+  var data = data.filter(function(d){
+      return (countries.includes(d.acountry))
+  })
+  
+  return {data:data,num_of_groups:num_of_groups}
+
+}
+
+// This funtion assigns a unique progressive group ID to each group. This ID
+// will be later used to assign a color to each group
+
+function assignGroupNum(data){
+  
+ var groupids = [data[0]['group']]
+    var group_names = [data[0]['acountry'].concat(' ',data[0]['cohort'])]
+    var group_name = ''
+    group_num = 0
+    
+    for (var i = 0; i < data.length; i++) {
+      data[i]['group_num'] = group_num
+      if (!(groupids.includes(data[i]['group']))) {
+        groupids.push(data[i]['group'])
+        group_name = data[i]['acountry'].concat(' ',data[i]['cohort'])
+        group_names.push(group_name)
+        group_num = ++group_num
+      }
+    }
+    
+  return {data:data,group_names:group_names}
+  
+}
+
+// This function resizes the data so that it has a total of max_dots obervations
+// equally divided among the groups
+
+function resizeData(data,num_of_groups,max_dots) {
+    	  
+  var resized_data = []
+  var group = data[0].group_num
+  var size = 0
+  var group_size = (max_dots/num_of_groups).toFixed(0)
+  
+  for (var i = 0; i < data.length; i++) {
+    if (data[i].group_num == group) {
+      if (size < group_size) {
+        resized_data[size + group*group_size] = data[i]
+        size = ++size
+      }
+    } else {
+      size = 0
+      group = data[i].group_num
+      resized_data[size + group*group_size] = data[i]
+    }
+  }
+  
+  return resized_data
+}
+
+// This is simply a wrapper function that calls all the lower level functions
+// that perform the cleaning and filtering steps.
+
+function prepareData(data,max_dots) {
+  
+  var return_values = filterData(data)
+  var data = return_values.data
+  var num_of_groups = return_values.num_of_groups
+  var return_values = assignGroupNum(data)
+  var data = return_values.data
+  var group_names = return_values.group_names
+  var data = resizeData(data,num_of_groups,max_dots)
+  
+  return {data:data,group_names:group_names}
+  
+}
   
 function startAnimation() {
   
@@ -559,65 +704,12 @@ function startAnimation() {
 
     // Load data and let's do it.
     
-    d3.csv(dataset, function(error, data) {
+    d3.csv(dataset, function(error, raw_data) {
       
-      // We check which countries and cohorts are selected in the drop-down menus
       
-      var countries = $('#country_sel').val();
-      var cohorts = $('#cohort_sel').val();
-      
-      var num_of_groups = cohorts.length*countries.length
-  
-      // We then filter our data so that it contains only the countries and
-      // cohorts the user selected
-      
-      var data = data.filter(function(d){
-          return (cohorts.includes(d.cohort))
-      })  
-      
-      var data = data.filter(function(d){
-          return (countries.includes(d.acountry))
-      })
-      
-      var groupids = [data[0]['group']]
-      var group_names = [data[0]['acountry'].concat(' ',data[0]['cohort'])]
-      group_num = 0
-      
-      for (var i = 0; i < data.length; i++) {
-        data[i]['group_num'] = group_num
-        if (!(groupids.includes(data[i]['group']))) {
-          groupids.push(data[i]['group'])
-          group_names.push(data[i]['acountry'].concat(' ',data[i]['cohort']))
-          group_num = ++group_num
-        }
-      }
-    	
-    	function resize_data(data,num_of_groups,max_dots) {
-    	  
-    	  var resized_data = []
-    	  var group = data[0].group_num
-    	  var size = 0
-        var group_size = (max_dots/num_of_groups).toFixed(0)
-    	  
-    	  for (var i = 0; i < data.length; i++) {
-    	    if (data[i].group_num == group) {
-    	      if (size < group_size) {
-    	        resized_data[size + group*group_size] = data[i]
-    	        size = ++size
-    	      }
-    	    } else {
-    	      size = 0
-    	      group = data[i].group_num
-    	      resized_data[size + group*group_size] = data[i]
-    	    }
-    	  }
-    	  return resized_data
-    	}
-    	
-    	// We resize the data so that each group is represented by the same 
-    	// number of bubbles and the total size is fixed to 500.
-    	
-    	data = resize_data(data,num_of_groups,500)
+      var return_values = prepareData(raw_data,500)
+    	var data = return_values.data
+    	var group_names = return_values.group_names
     	
     	var labels = [0, 1, 2, 3, 4];
     	
@@ -979,13 +1071,6 @@ function monthsToAge(m) {
   var age = precise_age.toFixed(1);
 	return "Age: " + age;
 }
-
-// Here we build the legend
-
-console.log(group_names)
-
-
-  
 
 </script>
 
