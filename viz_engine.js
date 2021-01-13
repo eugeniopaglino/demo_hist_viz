@@ -134,7 +134,7 @@ var svg = d3.select("#chart").append("svg")
 
 // We set the initial country to Sweden. Users can change it afterwards.
 
-var dataset = "hist_data.csv"
+var dataset = "https://cdn.jsdelivr.net/gh/eugeniopaglino/demo_hist_viz/hist_data.csv"
 
 // This function reads the user's selections and filters the data accordingly
 
