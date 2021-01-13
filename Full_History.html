@@ -32,30 +32,19 @@ body {
     line-height: 1
 }
 
-.wrapper {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
+.menus {
+  height: 30px;
+  width: 410px;
+  box-sizing: border-box;
+  z-index:100;
+  float: left;
 }
 
-.col {
-  flex: 50%;
-  max-width: 50%;
+#line_2.menus {
   height: 30px;
-  align-content: flex-start;
-  align-items: flex-start;
   box-sizing: border-box;
   z-index:10;
-}
-
-.col_2 {
-  flex: 100%;
-  max-width: 33%;
-  height: 30px;
-  align-content: flex-start;
-  align-items: flex-start;
-  box-sizing: border-box;
-  z-index:9;
+  float: left;
 }
 
 .multi-checkbox-select .widget-checkbox {
@@ -64,11 +53,30 @@ body {
   box-sizing: border-box;
 }
 
+.multi-checkbox-select {
+  float:left;
+  z-index:10;
+}
+
+#sel_1.multi-checkbox-select, #sel_2.multi-checkbox-select{
+  width:202px;
+  z-index:100;
+}
+
+#sel_3.multi-checkbox-select{
+  width:135px;
+}
+
+#sel_4.multi-checkbox-select, #sel_5.multi-checkbox-select{
+  width:134px;
+}
+
 .multi-checkbox-select legend {
+  float: left;
   position: relative;
   height: 30px;
+  width: 202px;  
   padding: 0.5rem 0 0 0.5rem;
-  width: 170px;
   border: 1px solid #CCC;
   border-top:0;
   background: #FFF;
@@ -83,20 +91,22 @@ select {
 	-webkit-appearance:none;
 	-moz-appearance:none;
 	-ms-appearance:none;
+	text-indent: 1px;
+  text-overflow: '';
 }
 
 #sel_2.multi-checkbox-select legend {
   border-left:0;
-  width: 166px;
+  width:201px;
 }
 
 #sel_3.multi-checkbox-select legend {
-  width: 112px;
+  width: 135px;
   z-index: 10;
 }
 
 #sel_4.multi-checkbox-select legend, #sel_5.multi-checkbox-select legend  {
-  width: 112px;
+  width: 134px;
   border-left:0;
   z-index: 10;
 }
@@ -136,22 +146,32 @@ select {
   transition: min-height 300ms ease;
   z-index: 1;
 }
+
+#sel_1.multi-checkbox-select fieldset .options, #sel_2.multi-checkbox-select fieldset .options {
+  z-index: 20;
+}
+
 .multi-checkbox-select fieldset:hover .options {
   background: #FFF;
-  min-height: 100px;
+  min-height: 80px;
   overflow-y: scroll;
   border: 1px solid #CCC;
   border-top: none;
   border-radius: 0 0 4px 4px;
+  z-index:1;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
-#sel_3.multi-checkbox-select fieldset:hover {
-  min-height: 10px;
+#sel_1.multi-checkbox-select fieldset:hover .options, #sel_2.multi-checkbox-select fieldset:hover .options{
+  min-height: 100px;
 }
 
 .multi-checkbox-select fieldset span {
   display: block;
   margin: 0.5rem 0 0 0.5rem;
+  z-index:100;
 }
 
 @font-face {
@@ -183,6 +203,7 @@ table {
     width: 1090px;
     height: 1000px;
     margin: 0 auto 0 auto;
+    z-index:10;
 }
 
 h1 {
@@ -239,8 +260,9 @@ img {
 #speed {
     font-family: "GGPFont", Gill Sans, sans-serif;
     font-size: 16px;
-    width: 340px;
+    width: 410px;
     margin: 5px auto 10px auto;
+    z-index:10;
 }
 
 #speed .togglebutton {
@@ -328,7 +350,17 @@ path.domain {
     display: none
 }
 
-#speed .restart_button {
+#speed .start_button {
+    background: #ececec;
+    padding: 3px;
+    text-align: center;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    float: left;
+    width: 60px;
+}
+
+#speed .stop_button {
     background: #ececec;
     padding: 3px;
     text-align: center;
@@ -339,15 +371,18 @@ path.domain {
     width: 60px;
 }
 
-#speed .start_button {
+
+#speed .reset_button {
     background: #ececec;
     padding: 3px;
     text-align: center;
     border: 1px solid #ccc;
+    border-left: 0;
     cursor: pointer;
     float: left;
     width: 60px;
 }
+
 
 </style>
 </head>
@@ -359,14 +394,13 @@ path.domain {
 <div id="current_age">Age: 15.0</div>
 <div id="speed">
 <div class="start_button" onclick="startAnimation()">Start</div>
-<div class="restart_button" onclick="history.go(0)">Restart</div>
+<div class="stop_button" id='stop_button' onclick="stop()">Pause</div>
+<div class="reset_button" onclick="history.go(0)">Reset</div>
 <div class="togglebutton slow" data-val="slow">Slow</div>
 <div class="togglebutton medium current" data-val="medium">Medium</div>
 <div class="togglebutton fast" data-val="fast">Fast</div>
 
-<div class='wrapper'>
-
-<div class="col">
+<div class="menus">
   <div class="widget widget-select multi-select" id='sel_1'>
     <label for="cat_1" class="select">Countries</label>
   	<select name="countries" id="country_sel" class="select" multiple>
@@ -381,9 +415,7 @@ path.domain {
   		<option value="United Kingdom">United Kingdom</option>
   	</select>
   </div>
-</div>
 
-<div class="col">
   <div class="widget widget-select multi-select" id='sel_2'>
     <label for="cat_2" class="select">Cohorts</label>
   	<select name="cohorts" id="cohort_sel" class="select" multiple>
@@ -395,14 +427,11 @@ path.domain {
   		<option value="1965-1970">1965-1970</option>
   	</select>
   </div>
+  
 </div>
 
-</div>
-
-
-<div class='wrapper'>
-
-<div class="col_2">
+<div class="menus" id="line_2">
+  
   <div class="widget widget-select multi-select" id='sel_3'>
     <label for="cat_3" class="select">Sex</label>
   	<select name="sexes" id="sex_sel" class="select" multiple>
@@ -411,9 +440,7 @@ path.domain {
   	  <option value="Any Sex">Both</option>
   	</select>
   </div>
-</div>
-
-<div class="col_2">
+  
   <div class="widget widget-select multi-select" id='sel_4'>
     <label for="cat_4" class="select">Residence</label>
   	<select name="resedences" id="residence_sel" class="select" multiple>
@@ -422,9 +449,7 @@ path.domain {
   	  <option value="Any Residence">Both</option>
   	</select>
   </div>
-</div>
 
-<div class="col_2">
   <div class="widget widget-select multi-select" id='sel_5'>
     <label for="cat_5" class="select">Education</label>
   	<select name="educations" id="education_sel" class="select" multiple>
@@ -433,8 +458,6 @@ path.domain {
   	  <option value="Any Education">Both</option>
   	</select>
   </div>
-</div>
-
 </div>
 
 <!-- partial -->
@@ -460,7 +483,7 @@ path.domain {
 <div id="chart"></div>
 <div class="clr"></div>
 </div>
-<script src="d3-3-5-5.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 
 <script>
 
@@ -468,7 +491,19 @@ path.domain {
 // The animation is inspired by the following post of Nathan Yau: 
 // http://flowingdata.com/2017/05/17/american-workday/
 
-var first_time = true;
+var first_time = true
+
+var go = true;
+
+function stop() {
+  if (go) {
+    go = false
+    d3.select("#stop_button").text('Play');
+  } else {
+    go = true
+    d3.select("#stop_button").text('Pause');
+  }
+}
 
 var USER_SPEED = "medium";
 
@@ -543,8 +578,9 @@ var speeds = { "slow": 1000, "medium": 250, "fast": 100 };
 // and when it will disappear. The notes, like the rest of the animation, start over
 // once the time counter has reached 35 years.
 var time_notes = [
-	{ "start_month": 10, "stop_month": 130, "note": "In this GGS data visualisation you see the partnership and fertility histories of a random sample of 500 individuals equally divided between the country-cohort combinations you selected (Source: GGS). For more info visit: www.ggp-i.org" },
-	{ "start_month": 140, "stop_month": 230, "note": "Use the speed buttons to make the animation go slower or faster. To change your selection, press the Restart button, select the countries and cohorts, then start the animation by pressing the Start button." },
+	{ "start_month": 10, "stop_month": 40, "note": "In this GGS data visualisation you see the partnership and fertility histories of a random sample of 500 individuals equally divided between the country-cohort combinations you selected (Source: GGS). For more info visit: www.ggp-i.org" },
+	{ "start_month": 50, "stop_month": 130, "note": "Use the Pause button to pause the animation, you'll see the age freezing and the dots gradually becoming static. You can then press the Play button to reactivate the visualisation." },
+	{ "start_month": 140, "stop_month": 230, "note": "Use the speed buttons to make the animation go slower or faster. To change your selection, press the Reset button, select the countries and cohorts, then start the animation by pressing the Start button." },
 ];
 var notes_index = 0;
 
@@ -689,7 +725,7 @@ function startAnimation() {
 // This if statement prevents users from creating problems by pressing the
 // start button multiple times.
 
-  if (first_time==true) {
+  if (first_time) {
 
 // Here we load the data that we have prepared. The structure of the data is the
 // following one:
@@ -828,43 +864,49 @@ function startAnimation() {
 	    // It checks if a marital status or a parity status has ended and, 
 	    // in case, it moves the node to the next position.
     	function timer() {
-    		d3.range(nodes.length).map(function(i) {
-    			var curr_node = nodes[i],
-    				curr_moves = curr_node.moves;
-    			var curr_grp = 0
-    
-    			// Time to go to next marital status
-    			if (curr_node.next_move_time == curr_month) {
-    				if (curr_node.moves == curr_node.sched.length-1) {
-    					curr_moves = 0;
-    				} else {
-    					curr_moves += 1;
-    				}
-    				
-    			/*	
-    				// Keep track of individuals which have no children.
-				  if (curr_node.mstat=="n" && curr_node.sched[ curr_moves ].mstat != "n") {
-					  group_colors[curr_node.group].count -= 1;
-				  }
-				  if (curr_node.mstat!="n" && curr_node.sched[ curr_moves ].mstat == "n") {
-					  group_colors[curr_node.group].count += 1;
-				  }
-				  */
-    			
-    				// Moves nodes on to next status
-    				curr_node.numchildren = curr_node.sched[ curr_moves ].numchildren;
-    				curr_node.mstat = curr_node.sched[ curr_moves ].mstat;
-    				curr_node.moves = curr_moves;
-    				curr_node.cx = x(curr_node.numchildren);
-    				curr_node.cy = y(curr_node.mstat);
-    			
-    				nodes[i].next_move_time += nodes[i].sched[ curr_node.moves ].duration;
-    			}
-    
-    		});
+    	  
+    	  if (go) {
+      		d3.range(nodes.length).map(function(i) {
+      			var curr_node = nodes[i],
+      				curr_moves = curr_node.moves;
+      			var curr_grp = 0
+      
+      			// Time to go to next marital status
+      			if (curr_node.next_move_time == curr_month) {
+      				if (curr_node.moves == curr_node.sched.length-1) {
+      					curr_moves = 0;
+      				} else {
+      					curr_moves += 1;
+      				}
+      				
+      			/*	
+      				// Keep track of individuals which have no children.
+  				  if (curr_node.mstat=="n" && curr_node.sched[ curr_moves ].mstat != "n") {
+  					  group_colors[curr_node.group].count -= 1;
+  				  }
+  				  if (curr_node.mstat!="n" && curr_node.sched[ curr_moves ].mstat == "n") {
+  					  group_colors[curr_node.group].count += 1;
+  				  }
+  				  */
+      			
+      				// Moves nodes on to next status
+      				curr_node.numchildren = curr_node.sched[ curr_moves ].numchildren;
+      				curr_node.mstat = curr_node.sched[ curr_moves ].mstat;
+      				curr_node.moves = curr_moves;
+      				curr_node.cx = x(curr_node.numchildren);
+      				curr_node.cy = y(curr_node.mstat);
+      			
+      				nodes[i].next_move_time += nodes[i].sched[ curr_node.moves ].duration;
+      			}
+      
+      		});
+    	  }
     
     		force.resume();
-    		curr_month += 1;
+    		if (go) {
+    		  curr_month += 1;
+    		}
+    		
     
         /*
     
