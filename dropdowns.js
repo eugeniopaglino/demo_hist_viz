@@ -9,9 +9,11 @@ $(document).ready(function(){
 	var msClass = '.multi-select';
 	var mcsClass = '.multi-checkbox-select';
 	
-	console.log($('#sel_1'))
 	$('#sel_1').wrap('<div class="multi-checkbox-select" id="sel_1"></div>');
 	$('#sel_2').wrap('<div class="multi-checkbox-select" id="sel_2"></div>');
+	$('#sel_3').wrap('<div class="multi-checkbox-select" id="sel_3"></div>');
+	$('#sel_4').wrap('<div class="multi-checkbox-select" id="sel_4"></div>');
+	$('#sel_5').wrap('<div class="multi-checkbox-select" id="sel_5"></div>');
 	$('<div class="widget-checkbox"><fieldset class="checkbox_container"><div class="options"></div></fieldset></div>').appendTo(mcsClass);
 	
 	// generate checkboxes
