@@ -1,474 +1,21 @@
-<!DOCTYPE html>
-<head>
-<title>Demographic Histories</title>
-<meta charset="utf-8">
-<style>
-
-.node {
-  stroke-width: 1.5px;
-}
-
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
-pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd,
-q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt,
-dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot,
-thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption,
-footer, header, hgroup, menu, nav, output, ruby, section, summary, time,
-mark, audio, video {
-    margin: 0;
-    padding: 0;
-    border: 0;
-    font-size: 100%;
-    font: inherit;
-    vertical-align: baseline
-}
-
-article, aside, details, figcaption, figure, footer, header, hgroup,
-menu, nav, section {
-    display: block
-}
-
-body {
-    line-height: 1
-}
-
-.wrapper {
-  width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.col {
-  flex: 50%;
-  max-width: 50%;
-  height: 30px;
-  align-content: flex-start;
-  align-items: flex-start;
-  box-sizing: border-box;
-  z-index:10;
-}
-
-.col_2 {
-  flex: 100%;
-  max-width: 33%;
-  height: 30px;
-  align-content: flex-start;
-  align-items: flex-start;
-  box-sizing: border-box;
-  z-index:9;
-}
-
-.multi-checkbox-select .widget-checkbox {
-  display: inline-block;
-  width: 20%;
-  box-sizing: border-box;
-}
-
-.multi-checkbox-select legend {
-  position: relative;
-  height: 30px;
-  padding: 0.5rem 0 0 0.5rem;
-  width: 170px;
-  border: 1px solid #CCC;
-  border-top:0;
-  background: #FFF;
-  box-sizing: border-box;
-  z-index: 100;
-}
-
-select {
-  width:100px;
-	float:left;
-	appearance:none;
-	-webkit-appearance:none;
-	-moz-appearance:none;
-	-ms-appearance:none;
-}
-
-#sel_2.multi-checkbox-select legend {
-  border-left:0;
-  width: 166px;
-}
-
-#sel_3.multi-checkbox-select legend {
-  width: 112px;
-  z-index: 10;
-}
-
-#sel_4.multi-checkbox-select legend, #sel_5.multi-checkbox-select legend  {
-  width: 112px;
-  border-left:0;
-  z-index: 10;
-}
-
-.multi-checkbox-select fieldset {
-  padding: 0;
-  margin: 0;
-  border: none;
-  position: relative;
-}
-.multi-checkbox-select fieldset:after {
-  position: absolute;
-  content: "";
-  display: block;
-  width: 0;
-  height: 0;
-  border-top: 6px solid #000;
-  border-right: 5px solid transparent;
-  border-bottom: 6px solid transparent;
-  border-left: 5px solid transparent;
-  right: 1rem;
-  top: 10px;
-  z-index: 1;
-}
-
-.multi-checkbox-select fieldset legend, .multi-checkbox-select fieldset input, .multi-checkbox-select fieldset label {
-  cursor: pointer;
-}
-.multi-checkbox-select fieldset .options {
-  position: relative;
-  background: #FFF;
-  top: -4px;
-  height: 0;
-  min-height: 0;
-  overflow: hidden;
-  border: 1px solid #CCC;
-  transition: min-height 300ms ease;
-  z-index: 1;
-}
-.multi-checkbox-select fieldset:hover .options {
-  background: #FFF;
-  min-height: 100px;
-  overflow-y: scroll;
-  border: 1px solid #CCC;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
-}
-
-#sel_3.multi-checkbox-select fieldset:hover {
-  min-height: 10px;
-}
-
-.multi-checkbox-select fieldset span {
-  display: block;
-  margin: 0.5rem 0 0 0.5rem;
-}
-
-@font-face {
-    font-family: "GGPFont";
-    src:url("Fonts/PFDinTextPro-Light.ttf");
-}
-
-ol, ul {
-    list-style: none
-}
-
-blockquote, q {
-    quotes: none
-}
-
-blockquote:before, blockquote:after, q:before, q:after {
-    content: '';
-    content: none
-}
-
-table {
-    border-collapse: collapse;
-    border-spacing: 0
-}
-
-#main-wrapper {
-    font-family: "GGPFont", Gill Sans, sans-serif;
-    font-size: 14px;
-    width: 1090px;
-    height: 1000px;
-    margin: 0 auto 0 auto;
-}
-
-h1 {
-    font-family: "GGPFont", Gill Sans, sans-serif;
-    font-size: 24px;
-    font-style: normal;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    text-align: center
-}
-
-h3 {
-    text-transform: uppercase;
-    font-size: 1em;
-    padding: 3px 0;
-    margin: -5px 0 3px
-}
-
-img {
-    display: block;
-    margin-left: 20px;
-    margin-top: 10px;
-    width: 10%;
-    float: left;
-}
-
-.centered {
-    text-align: center
-}
-
-#sidebar {
-    width: 259px;
-    float: left;
-    margin-right: 30px;
-    padding-right: 20px;
-    border-right: 1px solid #ccc;
-    height: 730px
-}
-
-#current_age {
-    font-family: "GGPFont", Gill Sans, sans-serif;
-    font-size: 60px;
-    color: #666;
-    text-align: center;
-    margin: 10px auto 0 auto;
-    width: 250px;
-}
-
-#chart {
-    position:relative;
-    float: left
-}
-
-#speed {
-    font-family: "GGPFont", Gill Sans, sans-serif;
-    font-size: 16px;
-    width: 340px;
-    margin: 5px auto 10px auto;
-}
-
-#speed .togglebutton {
-    padding: 3px;
-    text-align: center;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    float: left;
-    width: 60px;
-}
-
-#speed .togglebutton.slow {
-    border-right: 0;
-    border-left: 0;
-}
-
-#speed .togglebutton.fast {
-    border-left: 0;
-    
-}
-
-#speed .togglebutton.current {
-    color: #fff;
-    background: #000;
-}
-
-#note {
-    position: relative;
-    top: 0;
-    color: #fff;
-    font-family: "GGPFont", Gill Sans, sans-serif;
-    font-weight: 400;
-    font-size: 1.15em;
-    line-height: 1.3em;
-    text-align: justify;
-    height: 60px;
-    width: 800px;
-    margin: 0 auto 0 auto;
-}
-
-.x.axis text {
-    font-size: 1.3em;
-}
-
-.x.grid line {
-    stroke: #000;
-    opacity: .2
-}
-
-.y.axis text {
-    font-size: 1.3em;
-    alignment-baseline: middle
-}
-
-#cite {
-    border-top: 1px solid #ccc;
-    padding-top: 20px;
-    top: 640px;
-    font-size: 12px;
-    line-height: 1.4em;
-    width: 259px
-}
-
-circle {}
-
-.line {
-    stroke-width: .1px
-}
-
-a {
-    color: #821122;
-    text-decoration: none;
-    border-bottom: 1px solid #ccc
-}
-
-a:hover {
-    border-bottom: 1px solid #821122
-}
-
-.clr {
-    clear: both
-}
-
-path.domain {
-    display: none
-}
-
-#speed .restart_button {
-    background: #ececec;
-    padding: 3px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-left: 0;
-    cursor: pointer;
-    float: left;
-    width: 60px;
-}
-
-#speed .start_button {
-    background: #ececec;
-    padding: 3px;
-    text-align: center;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    float: left;
-    width: 60px;
-}
-
-</style>
-</head>
-<body>
-<div id="main-wrapper">
-
-<img  src="ggp_logo_hq.png" >
-
-<div id="current_age">Age: 15.0</div>
-<div id="speed">
-<div class="start_button" onclick="startAnimation()">Start</div>
-<div class="restart_button" onclick="history.go(0)">Restart</div>
-<div class="togglebutton slow" data-val="slow">Slow</div>
-<div class="togglebutton medium current" data-val="medium">Medium</div>
-<div class="togglebutton fast" data-val="fast">Fast</div>
-
-<div class='wrapper'>
-
-<div class="col">
-  <div class="widget widget-select multi-select" id='sel_1'>
-    <label for="cat_1" class="select">Countries</label>
-  	<select name="countries" id="country_sel" class="select" multiple>
-  	  <option value="Belgium">Belgium</option>
-  	  <option value="Czech Republic">Czech Republic</option>
-  		<option value="France">France</option>
-  		<option value="Georgia">Georgia</option>
-  		<option value="Germany">Germany</option>
-  		<option value="Lithuania">Lithuania</option>
-  		<option value="Norway">Norway</option>
-  		<option value="Poland">Poland</option>
-  		<option value="United Kingdom">United Kingdom</option>
-  	</select>
-  </div>
-</div>
-
-<div class="col">
-  <div class="widget widget-select multi-select" id='sel_2'>
-    <label for="cat_2" class="select">Cohorts</label>
-  	<select name="cohorts" id="cohort_sel" class="select" multiple>
-  	  <option value="1940-1945">1940-1945</option>
-  	  <option value="1945-1950">1945-1950</option>
-  		<option value="1950-1955">1950-1955</option>
-  		<option value="1955-1960">1955-1960</option>
-  		<option value="1960-1965">1960-1965</option>
-  		<option value="1965-1970">1965-1970</option>
-  	</select>
-  </div>
-</div>
-
-</div>
-
-
-<div class='wrapper'>
-
-<div class="col_2">
-  <div class="widget widget-select multi-select" id='sel_3'>
-    <label for="cat_3" class="select">Sex</label>
-  	<select name="sexes" id="sex_sel" class="select" multiple>
-  	  <option value="Females">Females</option>
-  	  <option value="Males">Males</option>
-  	  <option value="Any Sex">Both</option>
-  	</select>
-  </div>
-</div>
-
-<div class="col_2">
-  <div class="widget widget-select multi-select" id='sel_4'>
-    <label for="cat_4" class="select">Residence</label>
-  	<select name="resedences" id="residence_sel" class="select" multiple>
-  	  <option value="Rural">Rural</option>
-  	  <option value="Urban">Urban</option>
-  	  <option value="Any Residence">Both</option>
-  	</select>
-  </div>
-</div>
-
-<div class="col_2">
-  <div class="widget widget-select multi-select" id='sel_5'>
-    <label for="cat_5" class="select">Education</label>
-  	<select name="educations" id="education_sel" class="select" multiple>
-  	  <option value="Degree">Degree</option>
-  	  <option value="No Degree">No Degree</option>
-  	  <option value="Any Education">Both</option>
-  	</select>
-  </div>
-</div>
-
-</div>
-
-<!-- partial -->
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-<script  src="./select_1.js"></script>
-<script  src="./select_2.js"></script>
-
-<!--
-<select id="search_cohort" multiple="multiple" class="select_all">
-<option value="0">1949-1950</option>
-<option value="1">1969-1970</option>
-</select>
-
-<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.min.js'></script>
-<script src='https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0-beta/js/materialize.min.js'></script>
-<script  src="./script.js"></script>
-
--->
-
-<div class="clr"></div>
-</div>
-<div id="note"> &nbsp;</div>
-<div id="chart"></div>
-<div class="clr"></div>
-</div>
-<script src="d3-3-5-5.min.js"></script>
-
-<script>
 
 // The following code uses d3.js, or Data-Driven Documents, created by Mike Bostock. 
-// The animation is inspired by the following post of Nathan Yau: 
+// The animation is inspired by the following post by Nathan Yau: 
 // http://flowingdata.com/2017/05/17/american-workday/
 
-var first_time = true;
+var first_time = true
+
+var go = true;
+
+function stop() {
+  if (go) {
+    go = false
+    d3.select("#stop_button").text('Play');
+  } else {
+    go = true
+    d3.select("#stop_button").text('Pause');
+  }
+}
 
 var USER_SPEED = "medium";
 
@@ -543,8 +90,9 @@ var speeds = { "slow": 1000, "medium": 250, "fast": 100 };
 // and when it will disappear. The notes, like the rest of the animation, start over
 // once the time counter has reached 35 years.
 var time_notes = [
-	{ "start_month": 10, "stop_month": 130, "note": "In this GGS data visualisation you see the partnership and fertility histories of a random sample of 500 individuals equally divided between the country-cohort combinations you selected (Source: GGS). For more info visit: www.ggp-i.org" },
-	{ "start_month": 140, "stop_month": 230, "note": "Use the speed buttons to make the animation go slower or faster. To change your selection, press the Restart button, select the countries and cohorts, then start the animation by pressing the Start button." },
+	{ "start_month": 10, "stop_month": 40, "note": "In this GGS data visualisation you see the partnership and fertility histories of a random sample of 500 individuals equally divided between the country-cohort combinations you selected (Source: GGS). For more info visit: www.ggp-i.org" },
+	{ "start_month": 50, "stop_month": 130, "note": "Use the Pause button to pause the animation, you'll see the age freezing and the dots gradually becoming static. You can then press the Play button to reactivate the visualisation." },
+	{ "start_month": 140, "stop_month": 230, "note": "Use the speed buttons to make the animation go slower or faster. To change your selection, press the Reset button, select the countries and cohorts, then start the animation by pressing the Start button." },
 ];
 var notes_index = 0;
 
@@ -595,10 +143,26 @@ function filterData(data) {
   // We check which countries and cohorts are selected in the drop-down menus
   
   var countries = $('#country_sel').val();
+  console.log(countries)
+  if (!countries) {
+    countries = ['Sweden','France']
+  }
   var cohorts = $('#cohort_sel').val();
+  if (!cohorts) {
+    cohorts = ['1945-1950','1965-1970']
+  }
   var sexes = $('#sex_sel').val();
+  if (!sexes) {
+    sexes = ['Both']
+  }
   var residences = $('#residence_sel').val();
+  if (!residences) {
+    residences = ['Both']
+  }
   var educations = $('#education_sel').val();
+  if (!educations) {
+    educations = ['Both']
+  }
   
   var num_of_groups = cohorts.length*countries.length
 
@@ -689,7 +253,7 @@ function startAnimation() {
 // This if statement prevents users from creating problems by pressing the
 // start button multiple times.
 
-  if (first_time==true) {
+  if (first_time) {
 
 // Here we load the data that we have prepared. The structure of the data is the
 // following one:
@@ -828,43 +392,49 @@ function startAnimation() {
 	    // It checks if a marital status or a parity status has ended and, 
 	    // in case, it moves the node to the next position.
     	function timer() {
-    		d3.range(nodes.length).map(function(i) {
-    			var curr_node = nodes[i],
-    				curr_moves = curr_node.moves;
-    			var curr_grp = 0
-    
-    			// Time to go to next marital status
-    			if (curr_node.next_move_time == curr_month) {
-    				if (curr_node.moves == curr_node.sched.length-1) {
-    					curr_moves = 0;
-    				} else {
-    					curr_moves += 1;
-    				}
-    				
-    			/*	
-    				// Keep track of individuals which have no children.
-				  if (curr_node.mstat=="n" && curr_node.sched[ curr_moves ].mstat != "n") {
-					  group_colors[curr_node.group].count -= 1;
-				  }
-				  if (curr_node.mstat!="n" && curr_node.sched[ curr_moves ].mstat == "n") {
-					  group_colors[curr_node.group].count += 1;
-				  }
-				  */
-    			
-    				// Moves nodes on to next status
-    				curr_node.numchildren = curr_node.sched[ curr_moves ].numchildren;
-    				curr_node.mstat = curr_node.sched[ curr_moves ].mstat;
-    				curr_node.moves = curr_moves;
-    				curr_node.cx = x(curr_node.numchildren);
-    				curr_node.cy = y(curr_node.mstat);
-    			
-    				nodes[i].next_move_time += nodes[i].sched[ curr_node.moves ].duration;
-    			}
-    
-    		});
+    	  
+    	  if (go) {
+      		d3.range(nodes.length).map(function(i) {
+      			var curr_node = nodes[i],
+      				curr_moves = curr_node.moves;
+      			var curr_grp = 0
+      
+      			// Time to go to next marital status
+      			if (curr_node.next_move_time == curr_month) {
+      				if (curr_node.moves == curr_node.sched.length-1) {
+      					curr_moves = 0;
+      				} else {
+      					curr_moves += 1;
+      				}
+      				
+      			/*	
+      				// Keep track of individuals which have no children.
+  				  if (curr_node.mstat=="n" && curr_node.sched[ curr_moves ].mstat != "n") {
+  					  group_colors[curr_node.group].count -= 1;
+  				  }
+  				  if (curr_node.mstat!="n" && curr_node.sched[ curr_moves ].mstat == "n") {
+  					  group_colors[curr_node.group].count += 1;
+  				  }
+  				  */
+      			
+      				// Moves nodes on to next status
+      				curr_node.numchildren = curr_node.sched[ curr_moves ].numchildren;
+      				curr_node.mstat = curr_node.sched[ curr_moves ].mstat;
+      				curr_node.moves = curr_moves;
+      				curr_node.cx = x(curr_node.numchildren);
+      				curr_node.cy = y(curr_node.mstat);
+      			
+      				nodes[i].next_move_time += nodes[i].sched[ curr_node.moves ].duration;
+      			}
+      
+      		});
+    	  }
     
     		force.resume();
-    		curr_month += 1;
+    		if (go) {
+    		  curr_month += 1;
+    		}
+    		
     
         /*
     
@@ -1071,8 +641,3 @@ function monthsToAge(m) {
   var age = precise_age.toFixed(1);
 	return "Age: " + age;
 }
-
-</script>
-
-
-
