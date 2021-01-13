@@ -631,10 +631,26 @@ function filterData(data) {
   // We check which countries and cohorts are selected in the drop-down menus
   
   var countries = $('#country_sel').val();
+  console.log(countries)
+  if (!countries) {
+    countries = ['Sweden','France']
+  }
   var cohorts = $('#cohort_sel').val();
+  if (!cohorts) {
+    cohorts = ['1945-1950','1965-1970']
+  }
   var sexes = $('#sex_sel').val();
+  if (!sexes) {
+    sexes = ['Both']
+  }
   var residences = $('#residence_sel').val();
+  if (!residences) {
+    residences = ['Both']
+  }
   var educations = $('#education_sel').val();
+  if (!educations) {
+    educations = ['Both']
+  }
   
   var num_of_groups = cohorts.length*countries.length
 
