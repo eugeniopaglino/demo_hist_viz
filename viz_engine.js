@@ -131,8 +131,8 @@ var svg = d3.select("#chart").append("svg")
     .attr("height", height + margin.top + margin.bottom)
     .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-// We set the initial country to Sweden. Users can change it afterwards.
+    
+// We import the data directly from the GitHub repository
 
 var dataset = "https://cdn.jsdelivr.net/gh/eugeniopaglino/demo_hist_viz/hist_data.csv"
 
