@@ -134,7 +134,7 @@ var svg = d3.select("#chart").append("svg")
     
 // We import the data directly from the GitHub repository
 
-var dataset = "https://cdn.jsdelivr.net/gh/eugeniopaglino/demo_hist_viz/hist_data.csv"
+var dataset = "https://raw.githubusercontent.com/eugeniopaglino/demo_hist_viz/main/hist_data.csv"
 
 // This function reads the user's selections and filters the data accordingly
 
