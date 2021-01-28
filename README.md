@@ -4,3 +4,5 @@ An interactive visualisation that shows how fertility and marital histories diff
 You can play with the visualisation at the repository's website:
 
 https://eugeniopaglino.github.io/demo_hist_viz/
+
+At the moment the values selected in the gender, residence, and education menus have no impact on what data is visualised.
